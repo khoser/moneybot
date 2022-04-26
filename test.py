@@ -9,7 +9,8 @@ import PocketClass
 import PocketDB
 # import os
 import sqlite3
-from numpy import unicode, long
+from numpy.compat import long
+# , unicode
 # import base64
 # try:
 #     # For Python 3.0 and later
@@ -233,15 +234,15 @@ class TestAll(unittest.TestCase):
 
     def test_convert_to_str(self):
         acts = [
-                ['some text', 'some text'],
-                # [False, '0'],
-                # [True, '1'],
-                [123, '123'],
-                [-123, '-123'],
-                [123.4, '123.4'],
-                [None, 'None'],
-                [0, '0'],
-                ]
+            ['some text', 'some text'],
+            # [False, '0'],
+            # [True, '1'],
+            [123, '123'],
+            [-123, '-123'],
+            [123.4, '123.4'],
+            [None, 'None'],
+            [0, '0'],
+        ]
         for a in acts:
             self.assertEquals(PocketDB.convert_type_to_str(a[0]), a[1])
 
@@ -308,7 +309,7 @@ class TestAll(unittest.TestCase):
         kw = {'Ref_Key': "9747544e-11c8-11e4-589e-0018f3e1b84e",
               'IsFolder': False,
               'Description': "Название",
-              'Активность': True,}
+              'Активность': True, }
         one_pcs = PocketClass.OnePocket('Test', 'руб', 123, **kw)
         self.assertEqual(one_pcs.name, "Test")
         self.assertEqual(one_pcs.kwargs['Description'], "Название")
@@ -321,7 +322,7 @@ class TestAll(unittest.TestCase):
         kw = {'Ref_Key': "9747544e-11c8-11e4-589e-0018f3e1b84e",
               'IsFolder': False,
               'Description': "Название",
-              'Активность': True,}
+              'Активность': True, }
         one_crd = PocketClass.OneCredit('Test', 'руб', 'My contact', 123, **kw)
         self.assertEqual(one_crd.name, "Test")
         self.assertEqual(one_crd.kwargs['Description'], "Название")
@@ -336,7 +337,7 @@ class TestAll(unittest.TestCase):
         kw = {'Ref_Key': "9747544e-11c8-11e4-589e-0018f3e1b84e",
               'IsFolder': False,
               'Description': "Название",
-              'Активность': True,}
+              'Активность': True, }
         args = ['Test', 'руб', 123]
         pcs.set_pocket(*args, **kw)
         self.assertEqual(pcs.pockets[0].name, "Test")
@@ -352,7 +353,7 @@ class TestAll(unittest.TestCase):
         kw = {'Ref_Key': "9747544e-11c8-11e4-589e-0018f3e1b84e",
               'IsFolder': False,
               'Description': "Название",
-              'Активность': True,}
+              'Активность': True, }
         args = ['Test', 'руб', 'My contact', 123]
         pcs.set_credit(*args, **kw)
         self.assertEqual(pcs.credits[0].name, "Test")
@@ -442,7 +443,6 @@ class TestAll(unittest.TestCase):
                          pcs2.credits[0].kwargs[u'ВалютнаяСуммаBalance'])
         self.assertEqual(type(pcs.credits[0].kwargs[u'ВалютнаяСуммаBalance']),
                          float)
-
 
     def test_get_o_data(self):
         pcs = PocketClass.Pockets('MyPythonMoney.db')

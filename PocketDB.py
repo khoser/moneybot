@@ -12,7 +12,7 @@ import requests
 from urllib.parse import quote
 import json
 # from kivy.network.urlrequest import UrlRequest
-from numpy import unicode, long
+from numpy.compat import unicode, long
 
 
 def get_type(val):
