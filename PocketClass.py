@@ -66,7 +66,7 @@ class SimpleObject:
 
 
 class OneCurrency(SimpleObject):
-    """Один кошелек со своей валютой и баллансом"""
+    """Одна валюта со своими курсом и кратностью"""
     def __init__(self, name, course=1, multiplicity='1', **kwargs):
         SimpleObject.__init__(self, name, **kwargs)
         self.__name__ = 'OneCurrency'
@@ -95,7 +95,7 @@ class OneCurrency(SimpleObject):
             ks.sort()
             for k in ks:
                 kw += '                    %s: %s \n' % (k, self.kwargs[k])
-        return "%s: %s %s\n%s" % (self.name, self.balance, self.currency, kw)
+        return "%s: %s %s\n%s" % (self.name, self.course, self.multiplicity, kw)
 
 
 class OnePocket(SimpleObject):
@@ -212,7 +212,7 @@ class Pockets:
         if not exist:
             self.pockets.append(
                 OnePocket(name,
-                          currency if currency is OneCurrency else self.get_one(currency, 'OneCurrency'),
+                          currency if type(currency) is OneCurrency else self.get_one(currency, 'OneCurrency'),
                           balance,
                           **kwargs)
             )
@@ -243,7 +243,7 @@ class Pockets:
         if not exist:
             self.credits.append(
                 OneCredit(name,
-                          currency if currency is OneCurrency else self.get_one(currency, 'OneCurrency'),
+                          currency if type(currency) is OneCurrency else self.get_one(currency, 'OneCurrency'),
                           contact,
                           balance,
                           **kwargs)
