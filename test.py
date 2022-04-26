@@ -129,13 +129,14 @@ class TestAll(unittest.TestCase):
 
     def test_upd_balances(self):
         _name = 'Test'
-        _cur = PocketClass.OneCurrency(u'руб')
+        _cur = u'руб'
         _cont = 'My contact'
         _bal = 123
         _p_bal = 234.5
         _c_bal = 345.6
         pcs = PocketClass.Pockets('test3_db')
         pdb = pcs.db
+        pcs.set_cur(_cur)
         pcs.set_pocket(_name, _cur, _bal)
         pcs.set_credit(_name, _cur, _cont, _bal)
         pdb.recreate_refs(pcs)
@@ -399,13 +400,14 @@ class TestAll(unittest.TestCase):
     def test_create_fill_from_db(self):
         in_items = [u'item1', u'item2', u'Item3']
         out_items = [u'Item4', u'Item5', u'item6']
+        currencies = [u'руб', u'USD']
         contacts = [u'contact 1', u'contact 2', u'contact 3']
-        pockets = {u'p1': [u'p1', PocketClass.OneCurrency(u'руб'), 123.4],
-                   u'p2': [u'p2', PocketClass.OneCurrency(u'руб'), 234.5],
-                   u'p3': [u'p3', PocketClass.OneCurrency(u'USD'), 345.6]}
-        credit_s = {u'c1': [u'c1', PocketClass.OneCurrency(u'руб'), u'contact 1', 456.7],
-                    u'c2': [u'c2', PocketClass.OneCurrency(u'руб'), u'contact 2', 567.8],
-                    u'c3': [u'c3', PocketClass.OneCurrency(u'USD'), u'contact 3', 678.9]}
+        pockets = {u'p1': [u'p1', u'руб', 123.4],
+                   u'p2': [u'p2', u'руб', 234.5],
+                   u'p3': [u'p3', u'USD', 345.6]}
+        credit_s = {u'c1': [u'c1', u'руб', u'contact 1', 456.7],
+                    u'c2': [u'c2', u'руб', u'contact 2', 567.8],
+                    u'c3': [u'c3', u'USD', u'contact 3', 678.9]}
         kw1 = {u'Ref_Key': u"9747544e-11c8-11e4-589e-0018f3e1b84e",
                u'IsFolder': False,
                u'Description': u"Русские буквы",
@@ -423,6 +425,8 @@ class TestAll(unittest.TestCase):
             pcs.set_out_item(i)
         for c in contacts:
             pcs.set_contact(c)
+        for i in currencies:
+            pcs.set_cur(i)
         for p in pockets:
             pcs.set_pocket(*pockets[p], **kw1)
         for c in credit_s:
