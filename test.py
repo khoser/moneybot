@@ -245,7 +245,7 @@ class TestAll(unittest.TestCase):
             [0, '0'],
         ]
         for a in acts:
-            self.assertEquals(PocketDB.convert_type_to_str(a[0]), a[1])
+            self.assertEqual(PocketDB.convert_type_to_str(a[0]), a[1])
 
     def test_dump_get_kwargs(self):
         pdb = PocketDB.PocketsDB('test7_db')

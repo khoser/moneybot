@@ -74,7 +74,7 @@ class OneCurrency(SimpleObject):
 
     def set_course(self, course, multiplicity='1'):
         if type(course) == float or int:
-            self.course = course
+            self.course = float(course)
         elif type(course) == str or type(course) == unicode:
             self.balance = float(course.replace(" ", "").replace(",", "."))
         self.multiplicity = multiplicity
