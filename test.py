@@ -128,6 +128,7 @@ class TestAll(unittest.TestCase):
         con.close()
 
     def test_upd_balances(self):
+        self.maxDiff = None
         _name = 'Test'
         _cur = u'руб'
         _cont = 'My contact'
