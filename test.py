@@ -128,7 +128,6 @@ class TestAll(unittest.TestCase):
         con.close()
 
     def test_upd_balances(self):
-        self.maxDiff = None
         _name = 'Test'
         _cur = u'руб'
         _cont = 'My contact'
@@ -399,6 +398,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(three, pcs.credits[0])
 
     def test_create_fill_from_db(self):
+        self.maxDiff = None
         in_items = [u'item1', u'item2', u'Item3']
         out_items = [u'Item4', u'Item5', u'item6']
         currencies = [u'руб', u'USD']
