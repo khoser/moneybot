@@ -350,11 +350,11 @@ class Pockets:
                 else:
                     cur[i.currency.name] = i.balance
                 preview = f"{i.name}, {i.currency}"
-                rprview = '{0:,}'.format(round(i.balance)).replace(',', ' ')  # разделитель разрядов
+                rprview = '{0:,}'.format(round(i.balance, 2 if i.balance < 100 else None)).replace(',', ' ')
                 rprview = _10spaces[:10-len(rprview)] + rprview
                 if len(preview) <= 21:
                     pline = (preview + _10spaces)[:21] + rprview
-                elif len(preview) > 21:
+                else:
                     ost = ""
                     for s in range(1, len(preview[22:]) // 21 + (2 if len(preview[22:]) % 21 > 0 else 1)):
                         ost += "\n" + (preview + _10spaces)[s*21: 21+s*21]
@@ -368,11 +368,11 @@ class Pockets:
                 else:
                     cur[i.currency.name] = i.balance
                 preview = f"{i.name}, {i.currency}"
-                rprview = '{0:,}'.format(round(i.balance)).replace(',', ' ')  # разделитель разрядов
+                rprview = '{0:,}'.format(round(i.balance, 2 if i.balance < 100 else None)).replace(',', ' ')
                 rprview = _10spaces[:10 - len(rprview)] + rprview
                 if len(preview) <= 21:
                     pline = (preview + _10spaces)[:21] + rprview
-                elif len(preview) > 21:
+                else:
                     ost = ""
                     for s in range(1, len(preview[22:]) // 21 + (2 if len(preview[22:]) % 21 > 0 else 1)):
                         ost += "\n" + (preview + _10spaces)[s * 21: 21 + s * 21]
@@ -382,11 +382,11 @@ class Pockets:
         res += "<b> Фин.рез.</b><pre>\n"
         for i in cur:
             preview = f"{i}"
-            rprview = '{0:,}'.format(round(cur[i])).replace(',', ' ')  # разделитель разрядов
+            rprview = '{0:,}'.format(round(cur[i], 2 if cur[i] < 100 else None)).replace(',', ' ')
             rprview = (_10spaces + rprview)[-10:]
             if len(preview) <= 21:
                 pline = (preview + _10spaces)[:21] + rprview
-            elif len(preview) > 21:
+            else:
                 ost = ""
                 for s in range(1, len(preview[22:]) // 21 + (2 if len(preview[22:]) % 21 > 0 else 1)):
                     ost += "\n" + (preview + _10spaces)[s * 21: 21 + s * 21]
