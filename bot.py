@@ -11,6 +11,10 @@ TOKEN = os.environ.get('BOT_TOKEN')
 bot = telebot.TeleBot(TOKEN)
 ids = [int(os.environ.get('ID_KTU')), int(os.environ.get('ID_ERO'))]
 pcs = PocketClass.Pockets('MyPythonMoney.db')
+URL = os.environ.get('URL')
+LOGIN = os.environ.get('LOGIN')
+PASS = os.environ.get('PASS')
+pcs.set_settings(URL, LOGIN, PASS)
 action_stack = {}
 for mid in ids:
     action_stack[mid] = {}
