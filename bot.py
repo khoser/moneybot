@@ -48,6 +48,7 @@ def reg(message: Message):
         bot.forward_message(ids[0], message.chat.id, message.message_id)
         return
 
+    pcs.get_data()
     action_stack[message.from_user.id].clear()
 
     markup = types.InlineKeyboardMarkup()
@@ -115,6 +116,30 @@ def process_callback_1(query: types.CallbackQuery):
             uid = 0
             action_stack[query.from_user.id][uid] = main_data
             caption = f"Введите сумму расхода из {main_data[1]}\nв {main_data[2]}:"
+    if main_data[0] == 'In':
+        markup = types.InlineKeyboardMarkup()
+        caption = "Доход:"
+        if len(main_data) == 1:
+            for simple in pcs.pockets:
+                s = main_data.copy()
+                s.append(simple)
+                # print(s)
+                uid = str(guid())
+                action_stack[query.from_user.id][uid] = s
+                markup.add(types.InlineKeyboardButton(simple.name, callback_data=uid))
+                # bot.send_message(query.message.chat.id, caption, reply_markup=markup)
+        if len(main_data) == 2:
+            for simple in pcs.in_items:
+                s = main_data.copy()
+                s.append(simple)
+                uid = str(guid())
+                action_stack[query.from_user.id][uid] = s
+                markup.add(types.InlineKeyboardButton(simple.name, callback_data=uid))
+        if len(main_data) == 3:
+            markup = None
+            uid = 0
+            action_stack[query.from_user.id][uid] = main_data
+            caption = f"Введите сумму дохода в {main_data[1]}\nпо {main_data[2]}:"
     bot.send_message(query.message.chat.id, caption, reply_markup=markup)
     # print(type(query))
     # print(query.data)  # это callback_data
@@ -163,6 +188,15 @@ def some_func(message: Message):
                            f'\nВведите комментарий к операции'
             elif len(main_data) == 5:
                 pcs.action_out(main_data[1], main_data[2], float(main_data[3]), 0, main_data[4])
+                msg_text = 'Операция учтена'
+                pcs.post_data()
+        if main_data[0] == 'In':
+            if len(main_data) == 4:
+                msg_text = f'Выполняем операцию {main_data[0]}\n {main_data[3]}\n' \
+                           f' из {main_data[1].name}\n по статье {main_data[2].name}' \
+                           f'\nВведите комментарий к операции'
+            elif len(main_data) == 5:
+                pcs.action_in(main_data[1], main_data[2], float(main_data[3]), 0, main_data[4])
                 msg_text = 'Операция учтена'
                 pcs.post_data()
 
