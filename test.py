@@ -459,6 +459,47 @@ class TestAll(unittest.TestCase):
         pcs.get_settings()
         pcs.post_data()
 
+    def test_get_html_fin(self):
+        in_items = [u'item1', u'item2', u'Item3']
+        out_items = [u'Item4', u'Item5', u'item6']
+        currencies = [u'руб', u'USD']
+        contacts = [u'contact 1', u'contact 2', u'contact 3']
+        pockets = {u'p1': [u'p1', u'руб', 123.4],
+                   u'p2': [u'p2', u'руб', 234.5],
+                   u'p3': [u'p3', u'USD', 345.6]}
+        credit_s = {u'c1': [u'c1', u'руб', u'contact 1', 456.7],
+                    u'c2': [u'c2', u'руб', u'contact 2', 567.8],
+                    u'c3': [u'c3', u'USD', u'contact 3', 678.9]}
+        kw1 = {u'Ref_Key': u"9747544e-11c8-11e4-589e-0018f3e1b84e",
+               u'IsFolder': False,
+               u'Description': u"Русские буквы",
+               u'Активность': True}
+        kw2 = {u'Ref_Key': u"44747adc-5dd5-11e3-95ac-005056c00008",
+               u'ВалютнаяСуммаBalance': 123.45,
+               u'ExtDimension1': u"Name",
+               u'Активность': True,
+               u'Пассивность': True}
+        settings = [u'http://google.com', u'12345678']
+        pcs = PocketClass.Pockets('test14_db')
+        for i in in_items:
+            pcs.set_in_item(i)
+        for i in out_items:
+            pcs.set_out_item(i)
+        for c in contacts:
+            pcs.set_contact(c)
+        for i in currencies:
+            pcs.set_cur(i)
+        for p in pockets:
+            pcs.set_pocket(*pockets[p], **kw1)
+        for c in credit_s:
+            pcs.set_credit(*credit_s[c], **kw2)
+        pcs.create_db()
+        pcs.db.reset_settings(*settings)
+        pcs2 = PocketClass.Pockets('test14_db')
+        pcs2.fill_from_db()
+        pcs2._drop_db()
+        self.assertEqual(pcs.get_html_fin(), pcs2.get_html_fin())
+
     # def test_odata(self):
     #     # print ('test odata')
     #     pcs = PocketClass.Pockets('MyPythonMoney.db')

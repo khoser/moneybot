@@ -368,9 +368,11 @@ class Pockets:
             if i.balance != 0:
                 if i.currency.name in cur:
                     cur[i.currency.name] += i.balance
-                    separate[1][i.currency.name] += i.balance
                 else:
                     cur[i.currency.name] = i.balance
+                if i.currency.name in separate[1]:
+                    separate[1][i.currency.name] += i.balance
+                else:
                     separate[1][i.currency.name] = i.balance
                 preview = f"{i.name}, {i.currency}"
                 rprview = '{0:,}'.format(round(i.balance, 2 if abs(i.balance) < 100 else None)).replace(',', ' ')
@@ -398,7 +400,7 @@ class Pockets:
                         ost += "\n" + (preview + _10spaces)[s * 21: 21 + s * 21]
                     pline = preview[:21] + rprview + ost
                 res += pline + "\n"
-            res += "</pre>"
+            res += "</pre>\n-------------------------------"
         res += "<b> Фин.рез.</b><pre>\n"
         for i in cur:
             preview = f"{i}"
