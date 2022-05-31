@@ -340,6 +340,7 @@ class Pockets:
         # вывод информации о кошельках и кредитах в виде строки
         # в ширину на моем экране умещается 31 символ
         cur = {}
+        separate = [{}, {}]
         res = "<b>Кошельки и долги</b><pre>\n"
         _10spaces = "                    "
         self.pockets.sort()
@@ -347,10 +348,12 @@ class Pockets:
             if i.balance != 0:
                 if i.currency.name in cur:
                     cur[i.currency.name] += i.balance
+                    separate[0][i.currency.name] += i.balance
                 else:
                     cur[i.currency.name] = i.balance
+                    separate[0][i.currency.name] = i.balance
                 preview = f"{i.name}, {i.currency}"
-                rprview = '{0:,}'.format(round(i.balance, 2 if i.balance < 100 else None)).replace(',', ' ')
+                rprview = '{0:,}'.format(round(i.balance, 2 if abs(i.balance) < 100 else None)).replace(',', ' ')
                 rprview = _10spaces[:10-len(rprview)] + rprview
                 if len(preview) <= 21:
                     pline = (preview + _10spaces)[:21] + rprview
@@ -365,10 +368,12 @@ class Pockets:
             if i.balance != 0:
                 if i.currency.name in cur:
                     cur[i.currency.name] += i.balance
+                    separate[1][i.currency.name] += i.balance
                 else:
                     cur[i.currency.name] = i.balance
+                    separate[1][i.currency.name] = i.balance
                 preview = f"{i.name}, {i.currency}"
-                rprview = '{0:,}'.format(round(i.balance, 2 if i.balance < 100 else None)).replace(',', ' ')
+                rprview = '{0:,}'.format(round(i.balance, 2 if abs(i.balance) < 100 else None)).replace(',', ' ')
                 rprview = _10spaces[:10 - len(rprview)] + rprview
                 if len(preview) <= 21:
                     pline = (preview + _10spaces)[:21] + rprview
@@ -379,10 +384,25 @@ class Pockets:
                     pline = preview[:21] + rprview + ost
                 res += pline + "\n"
         res += "</pre>\n"
+        for curs in separate:
+            res += f"<b> {'Свои' if curs == separate[0] else 'Кредиты'}:</b><pre>\n"
+            for i in curs:
+                preview = f"{i}"
+                rprview = '{0:,}'.format(round(curs[i], 2 if abs(curs[i]) < 100 else None)).replace(',', ' ')
+                rprview = (_10spaces + rprview)[-10:]
+                if len(preview) <= 21:
+                    pline = (preview + _10spaces)[:21] + rprview
+                else:
+                    ost = ""
+                    for s in range(1, len(preview[22:]) // 21 + (2 if len(preview[22:]) % 21 > 0 else 1)):
+                        ost += "\n" + (preview + _10spaces)[s * 21: 21 + s * 21]
+                    pline = preview[:21] + rprview + ost
+                res += pline + "\n"
+            res += "</pre>"
         res += "<b> Фин.рез.</b><pre>\n"
         for i in cur:
             preview = f"{i}"
-            rprview = '{0:,}'.format(round(cur[i], 2 if cur[i] < 100 else None)).replace(',', ' ')
+            rprview = '{0:,}'.format(round(cur[i], 2 if abs(cur[i]) < 100 else None)).replace(',', ' ')
             rprview = (_10spaces + rprview)[-10:]
             if len(preview) <= 21:
                 pline = (preview + _10spaces)[:21] + rprview
