@@ -400,7 +400,7 @@ class Pockets:
                         ost += "\n" + (preview + _10spaces)[s * 21: 21 + s * 21]
                     pline = preview[:21] + rprview + ost
                 res += pline + "\n"
-            res += "</pre>"
+            res += "</pre>\n-------------------------------"
         res += "<b> Фин.рез.</b><pre>\n"
         for i in cur:
             preview = f"{i}"
