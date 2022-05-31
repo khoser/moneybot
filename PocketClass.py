@@ -341,7 +341,7 @@ class Pockets:
         # в ширину на моем экране умещается 31 символ
         cur = {}
         separate = [{}, {}]
-        res = "<b>Кошельки и долги</b><pre>\n"
+        res = "<b>Кошельки и долги</b>\n<pre>"
         _10spaces = "                    "
         self.pockets.sort()
         for i in self.pockets:
@@ -386,8 +386,9 @@ class Pockets:
                     pline = preview[:21] + rprview + ost
                 res += pline + "\n"
         res += "</pre>\n"
+        res += "<b>Фин.рез.</b>\n<pre>-------------------------------</pre>\n"
         for curs in separate:
-            res += f"<b> {'Свои' if curs == separate[0] else 'Кредиты'}:</b><pre>\n"
+            res += f"   {'Свои' if curs == separate[0] else 'Кредиты'}:\n<pre>"
             for i in curs:
                 preview = f"{i}"
                 rprview = '{0:,}'.format(round(curs[i], 2 if abs(curs[i]) < 100 else None)).replace(',', ' ')
@@ -400,8 +401,8 @@ class Pockets:
                         ost += "\n" + (preview + _10spaces)[s * 21: 21 + s * 21]
                     pline = preview[:21] + rprview + ost
                 res += pline + "\n"
-            res += "</pre>\n-------------------------------"
-        res += "<b> Фин.рез.</b><pre>\n"
+            res += "-------------------------------</pre>\n"
+        res += "<b>   Итог:</b>\n<pre>"
         for i in cur:
             preview = f"{i}"
             rprview = '{0:,}'.format(round(cur[i], 2 if abs(cur[i]) < 100 else None)).replace(',', ' ')
