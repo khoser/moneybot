@@ -495,7 +495,7 @@ class TestAll(unittest.TestCase):
             pcs.set_credit(*credit_s[c], **kw2)
         pcs.create_db()
         pcs.db.reset_settings(*settings)
-        pcs2 = PocketClass.Pockets('test13_db')
+        pcs2 = PocketClass.Pockets('test14_db')
         pcs2.fill_from_db()
         pcs2._drop_db()
         self.assertEqual(pcs.get_html_fin(), pcs2.get_html_fin())
