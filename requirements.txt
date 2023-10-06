@@ -1,8 +1,9 @@
-certifi==2020.12.5
-chardet==4.0.0
-idna==2.10
-numpy==1.20.2
-pyTelegramBotAPI==3.7.7
-requests==2.25.1
-unicode==2.8
-urllib3==1.26.4
+certifi==2023.7.22
+chardet==5.2.0
+charset-normalizer==3.3.0
+idna==3.4
+numpy==1.26.0
+pyTelegramBotAPI==4.14.0
+requests==2.31.0
+unicode==2.9
+urllib3==2.0.6

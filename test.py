@@ -10,6 +10,7 @@ import PocketDB
 # import os
 import sqlite3
 from numpy.compat import long
+from datetime import datetime
 # , unicode
 # import base64
 # try:
@@ -73,13 +74,16 @@ class TestAll(unittest.TestCase):
 
     def test_all_actions(self):
         pdb = PocketDB.PocketsDB('test2_db')
-        pdb.add_action(2, 3)
+        pdb.add_action(1, 3, datetime.strptime('11.02.2023', '%d.%m.%Y'))
+        pdb.add_action(2, 3, datetime.strptime('11.02.2023', '%d.%m.%Y'))
         con = sqlite3.connect(pdb.db_name)
         cur = con.cursor()
         cur.execute("SELECT * FROM Actions")
+        t = 1
         for row in cur:
-            self.assertEqual(row[2], 2)
+            self.assertEqual(row[2], t)
             self.assertEqual(row[3], 3)
+            t+=1
         pocket1 = u'pocket1'
         pocket2 = u'pocket2'
         credit1 = u'for one day'

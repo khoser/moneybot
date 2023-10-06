@@ -367,15 +367,23 @@ class PocketsDB:
         con.commit()
         con.close()
 
-    def add_action(self, action_name, action_id):
+    def add_action(self, action_name, action_id, date=''):
         con = sqlite3.connect(self.db_name)
         cur = con.cursor()
-        cur.execute(
+        if action_name == 2:  # out
+            cur.execute(
                 """INSERT INTO Actions
-                VALUES (NULL, datetime('now', 'localtime'), ?, ?)
+                VALUES (NULL, ?, ?, ?)
                 """,
-                (action_name, action_id)
-        )
+                (date, action_name, action_id)
+            )
+        else:
+            cur.execute(
+                    """INSERT INTO Actions
+                    VALUES (NULL, datetime('now', 'localtime'), ?, ?)
+                    """,
+                    (action_name, action_id)
+            )
         con.commit()
         con.close()
 
@@ -396,7 +404,7 @@ class PocketsDB:
         con.close()
         self.add_action(action_name, lid)
 
-    def action_out(self, pocket_name, item_name, summ, amount, comment):
+    def action_out(self, pocket_name, item_name, summ, amount, comment, date=''):
         """
         расходы
         из кошелька по статье на сумму за количество
@@ -411,7 +419,7 @@ class PocketsDB:
         lid = cur.lastrowid
         con.commit()
         con.close()
-        self.add_action(action_name, lid)
+        self.add_action(action_name, lid, date)
 
     def action_between(self, pocket_out_name, pocket_in_name, summ, comment):
         """

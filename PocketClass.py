@@ -563,7 +563,7 @@ class Pockets:
         self.db.action_in(pc.name, itm.name, summ, amount, comment)
         return 0
 
-    def action_out(self, pocket, item, summ, amount=0, comment=''):
+    def action_out(self, pocket, item, summ, amount=0, comment='', date=''):
         """
         расходы
         из кошелька по статье на сумму за количество
@@ -593,7 +593,7 @@ class Pockets:
             return 1
         pc.balance -= summ
         self.db.upd_pocket_balance(pc.name, pc.balance)
-        self.db.action_out(pc.name, itm.name, summ, amount, comment)
+        self.db.action_out(pc.name, itm.name, summ, amount, comment, date)
 
     def action_between(self, pocketout, pocketin, summ, comment=''):
         """
