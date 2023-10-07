@@ -882,7 +882,7 @@ class ODataRequests:
     def get(self, url, **kwargs):
         # headers = {'Authorization': self.settings['Authorization']}
         auth = (self.settings['Login'], self.settings['Pass'])
-        req = requests.get(url, auth=auth)
+        req = requests.get(url, auth=auth, verify=False)
         if req.ok and 'on_success' in kwargs:
             kwargs['on_success'](req, req.json() if len(req.text) > 0 else '')
         elif not req.ok or 'on_error' in kwargs:
@@ -890,7 +890,7 @@ class ODataRequests:
 
     def post(self, url, body, **kwargs):
         auth = (self.settings['Login'], self.settings['Pass'])
-        req = requests.post(url, data=body, auth=auth)
+        req = requests.post(url, data=body, auth=auth, verify=False)
         if req.ok and 'on_success' in kwargs:
             kwargs['on_success'](req, req.json() if len(req.text) > 0 else '')
         elif not req.ok or 'on_error' in kwargs:
