@@ -41,7 +41,7 @@ jobs:
       with:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
-        password: ${{ secrets.DOCKERIMAGES }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: build and push docker image
       uses: docker/build-push-action@v2
       with:
