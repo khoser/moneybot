@@ -875,6 +875,10 @@ class ODataRequests:
         self.num_docs_by_period = 0
         self._docs_by_period_dict = {}
         self._docs_by_period_call_back = None
+        self._requests_verify_cert = True
+
+    def set_requests_verify_cert(self, value=True):
+        self._requests_verify_cert = value
 
     def re_settings(self, settings):
         self.settings = settings
@@ -882,7 +886,7 @@ class ODataRequests:
     def get(self, url, **kwargs):
         # headers = {'Authorization': self.settings['Authorization']}
         auth = (self.settings['Login'], self.settings['Pass'])
-        req = requests.get(url, auth=auth, verify=False)
+        req = requests.get(url, auth=auth, verify=self._requests_verify_cert)
         if req.ok and 'on_success' in kwargs:
             kwargs['on_success'](req, req.json() if len(req.text) > 0 else '')
         elif not req.ok or 'on_error' in kwargs:
@@ -890,7 +894,7 @@ class ODataRequests:
 
     def post(self, url, body, **kwargs):
         auth = (self.settings['Login'], self.settings['Pass'])
-        req = requests.post(url, data=body, auth=auth, verify=False)
+        req = requests.post(url, data=body, auth=auth, verify=self._requests_verify_cert)
         if req.ok and 'on_success' in kwargs:
             kwargs['on_success'](req, req.json() if len(req.text) > 0 else '')
         elif not req.ok or 'on_error' in kwargs:
