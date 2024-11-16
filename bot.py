@@ -14,6 +14,8 @@ pcs = PocketClass.Pockets('MyPythonMoney.db')
 URL = os.environ.get('URL')
 LOGIN = os.environ.get('LOGIN')
 PASS = os.environ.get('PASS')
+requests_verify_cert = os.environ.get('CERT_VERIFICATION', default=True)
+pcs.sr.set_requests_verify_cert(requests_verify_cert)
 pcs.set_settings(URL, LOGIN, PASS)
 action_stack = {}
 for mid in ids:
